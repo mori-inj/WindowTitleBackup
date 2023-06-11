@@ -3,6 +3,7 @@
 #include <ShObjIdl.h>
 #include <ShObjIdl_core.h>
 #include <cassert>
+#include <ctime>
 #include <map>
 #include <vector>
 #include <utility>
@@ -147,7 +148,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 	switch(iMsg) {
 		case WM_CREATE:
 		{
-			SetTimer(hWnd, 1, 10000, 0);
+			SetTimer(hWnd, 1, 30000, 0);
 
 			break;
 		}
@@ -168,7 +169,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 			}
 			//vdm->Release();
 
-			FILE *fp = _wfopen(L"open_window_list.txt", L"w, ccs=UTF-8");
+			WCHAR filename[100] = L"";
+			wsprintf(filename, L"open_window_list_%d.txt", time(NULL));
+			FILE *fp = _wfopen(filename, L"w, ccs=UTF-8");
 			for(auto desktop : GUID2title) {
 				auto guid = desktop.first;
 				auto v = desktop.second;
